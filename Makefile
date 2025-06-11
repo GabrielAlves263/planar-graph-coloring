@@ -1,28 +1,24 @@
-# Nome do executável
-TARGET = main.exe
-
-# Compilador e flags
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -g
+INCLUDES = -Iinclude
+SRC_DIR = src
+BUILD_DIR = build
 
-# Arquivos-fonte e objetos
-SRCS = main.cpp GrafoLista.cpp
-OBJS = $(SRCS:.cpp=.o)
+SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
+OBJECTS = $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SOURCES))
+TARGET = $(BUILD_DIR)/main.exe
 
-# Regra padrão
-all: $(TARGET)
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
-# Como compilar o executável
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJECTS)
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
-# Como compilar arquivos .o
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+all: $(TARGET)
 
-# Limpeza dos arquivos compilados
+run: $(TARGET)
+	./$(TARGET)
+
 clean:
-	del /Q *.o *.exe 2> NUL || true
-
-# Força a recompilação
-rebuild: clean all
+	rm -rf $(BUILD_DIR)/*.o $(TARGET)

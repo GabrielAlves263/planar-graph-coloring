@@ -1,16 +1,16 @@
-#ifndef GRAFOLISTA_HPP
-#define GRAFOLISTA_HPP
+#ifndef GraphList_HPP
+#define GraphList_HPP
 
 #include <list>
 using namespace std;
 
-class Grafo
+class GraphList
 {
     int V;
     list<int> *adj;
 
 public:
-    Grafo(int V);
+    GraphList(int V);
     void adcionarAresta(int v1, int v2);
     int obterGrau(int v);
     void imprimir();

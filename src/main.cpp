@@ -4,6 +4,7 @@
 #include <set>
 #include <utility>
 #include <algorithm>
+#include "GraphList.hpp"
 
 using namespace std;
 
@@ -13,7 +14,7 @@ auto gerarGrafoPlanar(int n) -> pair<set<int>, vector<pair<int, int>>>
 
     set<int> vertices;
     vector<pair<int, int>> arestas;
-    int id = 1;
+    int id = 0;
 
     auto grau = [&](int v)
     {
@@ -26,14 +27,14 @@ auto gerarGrafoPlanar(int n) -> pair<set<int>, vector<pair<int, int>>>
         return count;
     };
 
-    for (int i = 1; i <= k; i++)
+    for (int i = 0; i < k; i++)
     {
-        for (int j = 1; j <= k; j++)
+        for (int j = 0; j < k; j++)
         {
             vertices.insert(id);
-            if (i < k)
+            if (i < k - 1)
                 arestas.push_back({id, id + k});
-            if (j < k)
+            if (j < k - 1)
                 arestas.push_back({id, id + 1});
             id++;
         }
@@ -77,22 +78,22 @@ auto gerarGrafoPlanar(int n) -> pair<set<int>, vector<pair<int, int>>>
     return {vertices, arestas};
 }
 
-void imprimirGrafo(const set<int> &vertices, const vector<pair<int, int>> &arestas)
-{
-    cout << "Vértices (" << vertices.size() << "): ";
-    for (int v : vertices)
-        cout << v << " ";
-    cout << "\n\nArestas (" << arestas.size() << "):\n";
-    for (const auto &a : arestas)
-        cout << a.first << " -- " << a.second << "\n";
-}
-
 int main()
 {
     int n = 500;
-    auto grafo = gerarGrafoPlanar(n);
+    auto grafoPlanar = gerarGrafoPlanar(n);
+    auto vertices = grafoPlanar.first;
+    auto arestas = grafoPlanar.second;
 
-    imprimirGrafo(grafo.first, grafo.second);
+    int maxV = *max_element(vertices.begin(), vertices.end());
+    GraphList grafo(maxV + 1);
+
+    for (auto &v : arestas)
+    {
+        grafo.adcionarAresta(v.first, v.second);
+    }
+
+    grafo.imprimir();
 
     return 0;
 }

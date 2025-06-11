@@ -1,26 +1,26 @@
-#include "GrafoLista.hpp"
+#include "GraphList.hpp"
 #include <iostream>
 
 using namespace std;
 
-Grafo::Grafo(int V)
+GraphList::GraphList(int V)
 {
     this->V = V;
     adj = new list<int>[this->V];
 }
 
-void Grafo::adcionarAresta(int v1, int v2)
+void GraphList::adcionarAresta(int v1, int v2)
 {
     adj[v1].push_back(v2);
     adj[v2].push_back(v1);
 }
 
-int Grafo::obterGrau(int v)
+int GraphList::obterGrau(int v)
 {
     return adj[v].size();
 }
 
-void Grafo::imprimir()
+void GraphList::imprimir()
 {
     for (int v = 0; v < V; v++)
     {

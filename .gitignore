@@ -1,0 +1,12 @@
+# Binários e objetos
+*.exe
+*.o
+*.obj
+*.out
+*.dll
+*.a
+*.lib
+
+# Diretório de build e sistema
+/build
+.vscode/

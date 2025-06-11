@@ -88,12 +88,17 @@ int main()
     int maxV = *max_element(vertices.begin(), vertices.end());
     GraphList grafo(maxV + 1);
 
-    for (auto &v : arestas)
+    for (auto &v : vertices)
     {
-        grafo.adcionarAresta(v.first, v.second);
+        grafo.insertVertex(v);
     }
 
-    grafo.imprimir();
+    for (auto &a : arestas)
+    {
+        grafo.insertEdge(a.first, a.second);
+    }
+
+    grafo.printGraph();
 
     return 0;
 }

@@ -4,22 +4,23 @@
 #include <set>
 #include <utility>
 #include <algorithm>
-#include "GraphList.hpp"
+#include <GraphList.hpp>
+#include <GraphMatrix.hpp>
 
 using namespace std;
 
-auto gerarGrafoPlanar(int n) -> pair<set<int>, vector<pair<int, int>>>
+auto generatePlanarGraph(int n) -> pair<set<int>, vector<pair<int, int>>>
 {
     int k = sqrt(n);
 
     set<int> vertices;
-    vector<pair<int, int>> arestas;
+    vector<pair<int, int>> edges;
     int id = 0;
 
-    auto grau = [&](int v)
+    auto degree = [&](int v)
     {
         int count = 0;
-        for (const auto &a : arestas)
+        for (const auto &a : edges)
         {
             if (a.first == v || a.second == v)
                 count++;
@@ -33,9 +34,9 @@ auto gerarGrafoPlanar(int n) -> pair<set<int>, vector<pair<int, int>>>
         {
             vertices.insert(id);
             if (i < k - 1)
-                arestas.push_back({id, id + k});
+                edges.push_back({id, id + k});
             if (j < k - 1)
-                arestas.push_back({id, id + 1});
+                edges.push_back({id, id + 1});
             id++;
         }
     }
@@ -46,10 +47,10 @@ auto gerarGrafoPlanar(int n) -> pair<set<int>, vector<pair<int, int>>>
         {
             vertices.erase(r);
 
-            arestas.erase(
-                remove_if(arestas.begin(), arestas.end(), [r](const pair<int, int> &aresta)
-                          { return aresta.first == r || aresta.second == r; }),
-                arestas.end());
+            edges.erase(
+                remove_if(edges.begin(), edges.end(), [r](const pair<int, int> &edge)
+                          { return edge.first == r || edge.second == r; }),
+                edges.end());
         }
     }
     else if (k * k < n)
@@ -58,47 +59,49 @@ auto gerarGrafoPlanar(int n) -> pair<set<int>, vector<pair<int, int>>>
         {
             vertices.insert(r);
 
-            int v_achado = -1;
+            int foundVertex = -1;
             for (int v : vertices)
             {
                 if (v == r)
                     continue;
-                if (grau(v) < 4)
+                if (degree(v) < 4)
                 {
-                    v_achado = v;
+                    foundVertex = v;
                     break;
                 }
             }
 
-            if (v_achado != -1)
-                arestas.push_back({r, v_achado});
+            if (foundVertex != -1)
+                edges.push_back({r, foundVertex});
         }
     }
 
-    return {vertices, arestas};
+    return {vertices, edges};
 }
 
 int main()
 {
     int n = 500;
-    auto grafoPlanar = gerarGrafoPlanar(n);
-    auto vertices = grafoPlanar.first;
-    auto arestas = grafoPlanar.second;
+    auto planarGraph = generatePlanarGraph(n);
+    auto vertices = planarGraph.first;
+    auto edges = planarGraph.second;
 
-    int maxV = *max_element(vertices.begin(), vertices.end());
-    GraphList grafo(maxV + 1);
+    GraphList graphList(n);
+    GraphMatrix graphMatrix(n);
 
     for (auto &v : vertices)
     {
-        grafo.insertVertex(v);
+        graphList.insertVertex(v);
+        graphMatrix.insertVertex(v);
     }
 
-    for (auto &a : arestas)
+    for (auto &a : edges)
     {
-        grafo.insertEdge(a.first, a.second);
+        graphList.insertEdge(a.first, a.second);
+        graphMatrix.insertEdge(a.first, a.second);
     }
 
-    grafo.printGraph();
+    graphMatrix.printGraph();
 
     return 0;
 }

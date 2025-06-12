@@ -6,7 +6,6 @@
 
 using namespace std;
 
-// Tipo de dado que o grafo irá guardar
 typedef int TypeItem;
 
 class GraphList
@@ -14,9 +13,9 @@ class GraphList
 private:
     int V;
     bool directedGraph;
-    vector<TypeItem> vertex;
+    vector<TypeItem> vertices;
     vector<list<TypeItem>> adj;
-    vector<int> color;
+    vector<int> colors;
 
 public:
     GraphList(int V, bool directedGraph = false); // Constructor

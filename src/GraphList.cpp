@@ -12,7 +12,7 @@ GraphList::GraphList(int V, bool directedGraph)
 
 GraphList::~GraphList()
 {
-    vertex.clear();
+    vertices.clear();
     adj.clear();
 }
 
@@ -20,25 +20,25 @@ void GraphList::insertVertex(TypeItem v)
 {
     if (isFull())
     {
-        cout << "O gráfico está cheio!" << endl;
+        cout << "Graph is full!" << endl;
         return;
     }
 
-    vertex.push_back(v);
-    adj.resize(vertex.size());
+    vertices.push_back(v);
+    adj.resize(vertices.size());
 }
 
 int GraphList::getIndex(TypeItem v)
 {
-    for (size_t i = 0; i < vertex.size(); i++)
+    for (size_t i = 0; i < vertices.size(); i++)
     {
-        if (vertex[i] == v)
+        if (vertices[i] == v)
         {
             return i;
         }
     }
 
-    // If vertex was not found
+    // If vertices was not found
     return -1;
 }
 
@@ -49,7 +49,7 @@ void GraphList::insertEdge(TypeItem v1, TypeItem v2)
 
     if (index1 == -1 || index2 == -1)
     {
-        cout << "Vertex not found";
+        cout << "Vertex not found" << endl;
         return;
     }
 
@@ -71,7 +71,7 @@ int GraphList::getDegree(TypeItem v)
 
 void GraphList::printGraph()
 {
-    for (size_t i = 0; i < vertex.size(); i++)
+    for (size_t i = 0; i < vertices.size(); i++)
     {
         cout << "Vertex " << i << ": ";
         for (TypeItem neighbor : adj[i])
@@ -84,5 +84,5 @@ void GraphList::printGraph()
 
 bool GraphList::isFull()
 {
-    return vertex.size() == static_cast<size_t>(V);
+    return vertices.size() == static_cast<size_t>(V);
 }

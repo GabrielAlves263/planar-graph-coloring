@@ -86,3 +86,13 @@ bool GraphList::isFull()
 {
     return vertices.size() == static_cast<size_t>(V);
 }
+
+vector<TypeItem> GraphList::getVertices()
+{
+    return this->vertices;
+}
+
+vector<list<TypeItem>> GraphList::getAdj()
+{
+    return this->adj;
+}

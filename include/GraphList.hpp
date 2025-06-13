@@ -20,6 +20,8 @@ private:
 public:
     GraphList(int V, bool directedGraph = false); // Constructor
     ~GraphList();                                 // Destructor
+    vector<TypeItem> getVertices();
+    vector<list<TypeItem>> getAdj();
     void insertVertex(TypeItem v);
     int getIndex(TypeItem v);
     int getDegree(TypeItem v);

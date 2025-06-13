@@ -147,8 +147,13 @@ int main()
 
     graphList.printGraph();
 
-    int chromaticNumber = findChromaticNumber(graphList.getVertices(), graphList.getAdj());
+    cout << "Grundy Coloring:" << endl;
+    auto cores = graphList.grundyColoring();
+    for (int i = 0; i < cores.size(); i++)
+        cout << "Vertex " << graphList.getVertices()[i] << " -> Color " << cores[i] << "\n";
 
+    cout << "Brute Force Coloring: " << endl;
+    int chromaticNumber = graphList.bruteForceColoring();
     cout << "Chromatic Number: " << chromaticNumber << endl;
 
     return 0;

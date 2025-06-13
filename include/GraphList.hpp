@@ -3,6 +3,7 @@
 
 #include <list>
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
@@ -28,6 +29,13 @@ public:
     void insertEdge(TypeItem v1, TypeItem v2);
     void printGraph();
     bool isFull();
+
+    // Coloração por força bruta
+    bool isColoringValid(vector<int> colors);
+    int bruteForceColoring();
+
+    // Coloração com heurística de Grundy
+    vector<int> grundyColoring();
 };
 
 #endif

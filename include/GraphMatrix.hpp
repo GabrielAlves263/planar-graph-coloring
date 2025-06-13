@@ -24,6 +24,10 @@ public:
     void insertEdge(TypeItem v1, TypeItem v2);
     int getDegree(TypeItem v1);
     void printGraph();
+    vector<TypeItem> getVertices();
+    vector<vector<int>> getAdjMatrix();
+    vector<int> grundyColoring();
+    int bruteForceColoring();
 };
 
 #endif

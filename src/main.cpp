@@ -125,7 +125,7 @@ int findChromaticNumber(const vector<int> &vertices, const vector<list<int>> &ad
 
 int main()
 {
-    int n = 30;
+    int n = 10;
     auto planarGraph = generatePlanarGraph(n);
     auto vertices = planarGraph.first;
     auto edges = planarGraph.second;
@@ -145,16 +145,30 @@ int main()
         graphMatrix.insertEdge(a.first, a.second);
     }
 
-    graphList.printGraph();
-
-    cout << "Grundy Coloring:" << endl;
+    // Grundy-lista
+    cout << "\nGrundy Coloring(List, n = " << n << "): " << endl;
     auto cores = graphList.grundyColoring();
     for (int i = 0; i < cores.size(); i++)
         cout << "Vertex " << graphList.getVertices()[i] << " -> Color " << cores[i] << "\n";
 
-    cout << "Brute Force Coloring: " << endl;
+    // Força Bruta-lista
+    cout << "\nBrute Force Coloring(List, n = " << n << "): " << endl;
     int chromaticNumber = graphList.bruteForceColoring();
     cout << "Chromatic Number: " << chromaticNumber << endl;
+
+    // Grundy-Matriz
+    cout << "\nGrundy Coloring(Matrix, n = " << n << "): " << endl;
+    vector<int> colors = graphMatrix.grundyColoring();
+
+    for (size_t i = 0; i < colors.size(); ++i)
+    {
+        cout << "Vertex " << i << " -> Color " << colors[i] << endl;
+    }
+
+    cout << "\nBrute Force Coloring(Matrix, n = " << n << "): " << endl;
+    // Força Bruta-Matriz
+    int chromaticNumberMatrix = graphMatrix.bruteForceColoring();
+    cout << "Chromatic Number(Matrix): " << chromaticNumberMatrix << endl;
 
     return 0;
 }

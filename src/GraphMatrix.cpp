@@ -135,10 +135,13 @@ vector<int> GraphMatrix::grundyColoring()
 
     sort(ordem.begin(), ordem.end(), [&](int a, int b)
          {
-        int grauA = getDegree(a);
-        int grauB = getDegree(b);
-    
-    return grauA > grauB; });
+             int grauA = 0, grauB = 0;
+             for (int j = 0; j < n; j++)
+             {
+                 if (adjMatrix[a][j]) grauA++;
+                 if (adjMatrix[b][j]) grauB++;
+             }
+             return grauA > grauB; });
 
     for (int idx : ordem)
     {
@@ -151,7 +154,7 @@ vector<int> GraphMatrix::grundyColoring()
         }
 
         int color = 0;
-        while (used.find(color) != used.end())
+        while (used.count(color))
             color++;
 
         colors[idx] = color;

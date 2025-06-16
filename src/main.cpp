@@ -1,13 +1,17 @@
 #include <iostream>
-#include <cmath>
 #include <vector>
 #include <set>
 #include <utility>
 #include <algorithm>
-#include <GraphList.hpp>
-#include <GraphMatrix.hpp>
+#include <cmath>
+#include <chrono>
+#include <fstream>
+#include <string>
+#include "GraphList.hpp"
+#include "GraphMatrix.hpp"
 
 using namespace std;
+using namespace std::chrono;
 
 auto generatePlanarGraph(int n) -> pair<set<int>, vector<pair<int, int>>>
 {
@@ -123,52 +127,107 @@ int findChromaticNumber(const vector<int> &vertices, const vector<list<int>> &ad
     return -1;
 }
 
-int main()
-{
-    int n = 10;
-    auto planarGraph = generatePlanarGraph(n);
-    auto vertices = planarGraph.first;
-    auto edges = planarGraph.second;
+int main() {
+    // Abre o arquivo CSV para escrita e adiciona o cabeçalho
+    ofstream csvFile("resultados_benchmark.csv");
+    csvFile << "N,Algoritmo,Representacao,Tempo_Medio_ns\n";
 
-    GraphList graphList(n);
-    GraphMatrix graphMatrix(n);
+    const int REPETICOES = 1000000;
 
-    for (auto &v : vertices)
-    {
-        graphList.insertVertex(v);
-        graphMatrix.insertVertex(v);
+    vector<int> n_values_grundy = {4, 5, 6};
+
+    for (int n : n_values_grundy) {
+        cout << "Processando n = " << n << " para o algoritmo de Grundy..." << endl;
+
+        // 1. Gerar o grafo UMA VEZ para o 'n' atual
+        auto graphData = generatePlanarGraph(n);
+        auto vertices = graphData.first;
+        auto edges = graphData.second;
+
+        // Instanciar grafo em lista de adjacência
+        GraphList graphList(n);
+        for (int v : vertices) graphList.insertVertex(v);
+        for (const auto& edge : edges) graphList.insertEdge(edge.first, edge.second);
+
+        // Instanciar grafo em matriz de adjacência
+        GraphMatrix graphMatrix(n);
+        for (int v : vertices) graphMatrix.insertVertex(v);
+        for (const auto& edge : edges) graphMatrix.insertEdge(edge.first, edge.second);
+
+        // 2. Medir tempo para Grundy + Lista
+        long long total_time_grundy_list = 0;
+        for (int i = 0; i < REPETICOES; ++i) {
+            auto start = high_resolution_clock::now();
+            graphList.grundyColoring();
+            auto stop = high_resolution_clock::now();
+            total_time_grundy_list += duration_cast<nanoseconds>(stop - start).count();
+        }
+        double avg_time_grundy_list = static_cast<double>(total_time_grundy_list) / REPETICOES;
+        csvFile << n << ",Grundy,Lista," << avg_time_grundy_list << "\n";
+        cout << "  Grundy + Lista: " << avg_time_grundy_list << " ns" << endl;
+
+
+        // 3. Medir tempo para Grundy + Matriz
+        long long total_time_grundy_matrix = 0;
+        for (int i = 0; i < REPETICOES; ++i) {
+            auto start = high_resolution_clock::now();
+            graphMatrix.grundyColoring();
+            auto stop = high_resolution_clock::now();
+            total_time_grundy_matrix += duration_cast<nanoseconds>(stop - start).count();
+        }
+        double avg_time_grundy_matrix = static_cast<double>(total_time_grundy_matrix) / REPETICOES;
+        csvFile << n << ",Grundy,Matriz," << avg_time_grundy_matrix << "\n";
+        cout << "  Grundy + Matriz: " << avg_time_grundy_matrix << " ns" << endl;
     }
 
-    for (auto &a : edges)
-    {
-        graphList.insertEdge(a.first, a.second);
-        graphMatrix.insertEdge(a.first, a.second);
+    // =================================================================
+    // PARTE 2: Algoritmo de Força Bruta para n = 10
+    // =================================================================
+    int n_brute = 10;
+    cout << "\nProcessando n = " << n_brute << " para o algoritmo de Forca Bruta..." << endl;
+
+    // 1. Gerar o grafo UMA VEZ
+    auto graphDataBrute = generatePlanarGraph(n_brute);
+    auto verticesBrute = graphDataBrute.first;
+    auto edgesBrute = graphDataBrute.second;
+
+    // Instanciar grafo em lista de adjacência
+    GraphList graphListBrute(n_brute);
+    for (int v : verticesBrute) graphListBrute.insertVertex(v);
+    for (const auto& edge : edgesBrute) graphListBrute.insertEdge(edge.first, edge.second);
+
+    // Instanciar grafo em matriz de adjacência
+    GraphMatrix graphMatrixBrute(n_brute);
+    for (int v : verticesBrute) graphMatrixBrute.insertVertex(v);
+    for (const auto& edge : edgesBrute) graphMatrixBrute.insertEdge(edge.first, edge.second);
+
+    // 2. Medir tempo para Força Bruta + Lista
+    long long total_time_brute_list = 0;
+    for (int i = 0; i < REPETICOES; ++i) {
+        auto start = high_resolution_clock::now();
+        graphListBrute.bruteForceColoring();
+        auto stop = high_resolution_clock::now();
+        total_time_brute_list += duration_cast<nanoseconds>(stop - start).count();
     }
+    double avg_time_brute_list = static_cast<double>(total_time_brute_list) / REPETICOES;
+    csvFile << n_brute << ",Forca Bruta,Lista," << avg_time_brute_list << "\n";
+    cout << "  Forca Bruta + Lista: " << avg_time_brute_list << " ns" << endl;
 
-    // Grundy-lista
-    cout << "\nGrundy Coloring(List, n = " << n << "): " << endl;
-    auto cores = graphList.grundyColoring();
-    for (int i = 0; i < cores.size(); i++)
-        cout << "Vertex " << graphList.getVertices()[i] << " -> Color " << cores[i] << "\n";
-
-    // Força Bruta-lista
-    cout << "\nBrute Force Coloring(List, n = " << n << "): " << endl;
-    int chromaticNumber = graphList.bruteForceColoring();
-    cout << "Chromatic Number: " << chromaticNumber << endl;
-
-    // Grundy-Matriz
-    cout << "\nGrundy Coloring(Matrix, n = " << n << "): " << endl;
-    vector<int> colors = graphMatrix.grundyColoring();
-
-    for (size_t i = 0; i < colors.size(); ++i)
-    {
-        cout << "Vertex " << i << " -> Color " << colors[i] << endl;
+    // 3. Medir tempo para Força Bruta + Matriz
+    long long total_time_brute_matrix = 0;
+    for (int i = 0; i < REPETICOES; ++i) {
+        auto start = high_resolution_clock::now();
+        graphMatrixBrute.bruteForceColoring();
+        auto stop = high_resolution_clock::now();
+        total_time_brute_matrix += duration_cast<nanoseconds>(stop - start).count();
     }
+    double avg_time_brute_matrix = static_cast<double>(total_time_brute_matrix) / REPETICOES;
+    csvFile << n_brute << ",Forca Bruta,Matriz," << avg_time_brute_matrix << "\n";
+    cout << "  Forca Bruta + Matriz: " << avg_time_brute_matrix << " ns" << endl;
 
-    cout << "\nBrute Force Coloring(Matrix, n = " << n << "): " << endl;
-    // Força Bruta-Matriz
-    int chromaticNumberMatrix = graphMatrix.bruteForceColoring();
-    cout << "Chromatic Number(Matrix): " << chromaticNumberMatrix << endl;
+
+    csvFile.close();
+    cout << "\nBenchmark concluido. Resultados salvos em 'resultados_benchmark.csv'" << endl;
 
     return 0;
 }

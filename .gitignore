@@ -10,3 +10,4 @@
 # Diretório de build e sistema
 /build
 .vscode/
+/bin

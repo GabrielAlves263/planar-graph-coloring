@@ -1,0 +1,15 @@
+N,Algoritmo,Representacao,Tempo_Medio_ns
+8,Forca Bruta,Lista,68833.6
+8,Forca Bruta,Matriz,2428.82
+10,Forca Bruta,Lista,200551
+10,Forca Bruta,Matriz,3104.7
+12,Forca Bruta,Lista,655799
+12,Forca Bruta,Matriz,3146.28
+14,Forca Bruta,Lista,2.09096e+06
+14,Forca Bruta,Matriz,3384.53
+500,Grundy,Lista,5.34474e+06
+500,Grundy,Matriz,4.79216e+07
+1000,Grundy,Lista,2.15149e+07
+1000,Grundy,Matriz,1.92569e+08
+2000,Grundy,Lista,9.06373e+07
+2000,Grundy,Matriz,5.66787e+08

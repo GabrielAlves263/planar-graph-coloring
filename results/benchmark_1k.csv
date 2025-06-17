@@ -1,0 +1,15 @@
+N,Algorithm,Representation,Avg_Time_ns
+500,Grundy,List,1.38361e+06
+500,Grundy,Matrix,5.40342e+07
+1000,Grundy,List,1.60042e+07
+1000,Grundy,Matrix,2.30862e+08
+2000,Grundy,List,9.46278e+07
+2000,Grundy,Matrix,9.09022e+08
+8,Brute Force,List,95726
+8,Brute Force,Matrix,3589
+10,Brute Force,List,285503
+10,Brute Force,Matrix,4034.1
+12,Brute Force,List,992026
+12,Brute Force,Matrix,6549.2
+14,Brute Force,List,3.54634e+06
+14,Brute Force,Matrix,7201.9

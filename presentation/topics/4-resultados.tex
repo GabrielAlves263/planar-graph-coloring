@@ -2,6 +2,8 @@
 
 \begin{frame}{Desempenho do Algoritmo de Força Bruta (nanossegundos)}
     \centering
+    { % Inicia um grupo para a mudança ser local
+    \renewcommand{\arraystretch}{1.5} % <-- AQUI ESTÁ A MÁGICA!
     \begin{tabular}{|c|r|r|}
         \hline
         \textbf{N (Vértices)} & \textbf{Lista (ns)} & \textbf{Matriz (ns)} \\
@@ -15,10 +17,13 @@
         14 & 2,090,960.00 & 3,384.53 \\
         \hline
     \end{tabular}
+    } % Termina o grupo
 \end{frame}
 
 \begin{frame}{Desempenho da Heurística de Grundy (milissegundos)}
     \centering
+    { % Inicia um grupo para a mudança ser local
+    \renewcommand{\arraystretch}{1.5} % <-- Aumenta a altura da linha
     \begin{tabular}{|c|r|r|}
         \hline
         \textbf{N (Vértices)} & \textbf{Lista (ms)} & \textbf{Matriz (ms)} \\
@@ -30,6 +35,7 @@
         2000 & 90.64 & 566.79 \\
         \hline
     \end{tabular}
+    } % Termina o grupo
 \end{frame}
 
 \begin{frame}{Desempenho do Algoritmo de Força Bruta por Representação}

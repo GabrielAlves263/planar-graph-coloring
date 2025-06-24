@@ -1,0 +1,81 @@
+\documentclass[serif, aspectratio=169]{beamer}
+\usepackage[T1]{fontenc} 
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+\usepackage{fourier}
+\usepackage{hyperref}
+\usepackage{latexsym,amsmath,xcolor,multicol,booktabs,calligra}
+\usepackage{graphicx,pstricks,listings,stackengine}
+\usepackage{lipsum}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{UFCStyle}
+
+% Definições visuais
+\definecolor{hkustyellow}{RGB}{167, 131, 55}
+\definecolor{hkustblue}{RGB}{0, 56, 116}
+\definecolor{hkustred}{RGB}{209, 51, 59}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries\color{deepblue},
+    emphstyle=\ttfamily\color{deepred},
+    stringstyle=\color{deepgreen},
+    numbers=left,
+    numberstyle=\small\color{halfgray},
+    rulesepcolor=\color{red!20!green!20!blue!20},
+    frame=shadowbox,
+}
+
+% Informações da apresentação
+\title{Benchmarking de Técnicas de Coloração em Grafos Planares}
+\subtitle{Equipe 04}
+\author{
+Ismael S. da Silva, Jose G. A. de Paula, \
+Matheus F. Trajano, Pedro H. M. da Silva,\
+}
+\institute{Universidade Federal do Ceará}
+\date{\small \today}
+
+% Comandos customizados
+\def\cmd#1{\texttt{\color{red}\footnotesize $\backslash$#1}}
+\def\env#1{\texttt{\color{blue}\footnotesize #1}}
+
+% --- Início do documento ---
+\begin{document}
+
+% Slide de título
+\begin{frame}
+    \titlepage
+    \vspace*{-0.6cm}
+    \begin{figure}[htpb]
+        \begin{center}
+            \includegraphics[keepaspectratio, scale=0.06]{figures/UFC.png}
+        \end{center}
+    \end{figure}
+\end{frame}
+
+% Sumário
+\begin{frame}    
+\tableofcontents[sectionstyle=show,
+subsectionstyle=show/shaded/hide,
+subsubsectionstyle=show/shaded/hide]
+\end{frame}
+
+% Seções modulares
+\input{topics/1-introducao.tex}
+\input{topics/2-representacoes.tex}
+\input{topics/3-algoritmos.tex}
+\input{topics/4-resultados.tex}
+\input{topics/5-conclusao.tex}
+\input{topics/6-referencias.tex}
+
+% Slide final
+\begin{frame}
+\begin{center}
+{\Huge Obrigado pela atenção!}
+\vspace{1cm}
+
+\end{center}
+\end{frame}
+
+\end{document}

@@ -139,7 +139,7 @@ struct BenchmarkResult {
 int main() {
     vector<BenchmarkResult> all_results;
     
-    const int REPETICOES_GRUNDY = 1000000;
+    const int REPETICOES_GRUNDY = 1000;
     vector<int> n_values_grundy = {500, 1000, 2000};
     
     cout << "Starting Grundy benchmarks (in parallel)..." << endl;
@@ -191,7 +191,7 @@ int main() {
         }
     }
 
-    const int REPETICOES_BRUTE = 10000;
+    const int REPETICOES_BRUTE = 1000;
     vector<int> n_values_brute = {8, 10, 12, 14};
     
     cout << "\nStarting Brute Force benchmarks (in parallel)..." << endl;
@@ -251,14 +251,14 @@ int main() {
         return a.representation < b.representation;
     });
 
-    ofstream csvFile("benchmark.csv");
+    ofstream csvFile("benchmark_1k.csv");
     csvFile << "N,Algorithm,Representation,Avg_Time_ns\n";
     for (const auto& res : all_results) {
         csvFile << res.n << "," << res.algorithm << "," << res.representation << "," << res.avg_time_ns << "\n";
     }
     csvFile.close();
 
-    cout << "\nBenchmark finished. Results saved to 'benchmark.csv'" << endl;
+    cout << "\nBenchmark finished. Results saved to 'benchmark_1k.csv'" << endl;
 
     return 0;
 }

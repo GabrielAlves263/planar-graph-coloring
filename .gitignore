@@ -11,3 +11,23 @@
 /build
 .vscode/
 /bin
+
+# Arquivos de log e auxiliares do LaTeX gerados pela imagem
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.nav
+*.out
+*.snm
+*.synctex.gz
+*.toc
+
+# É uma boa prática adicionar outras extensões comuns de arquivos temporários
+# do LaTeX para manter seu repositório limpo.
+*.bbl
+*.blg
+*.lof
+*.lot
+*.vrb
+_minted*

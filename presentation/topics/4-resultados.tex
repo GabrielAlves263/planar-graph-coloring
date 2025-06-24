@@ -1,1 +1,43 @@
 \section{Resultados de Desempenho}
+
+\begin{frame}{Desempenho do Algoritmo de Força Bruta (nanossegundos)}
+    \centering
+    \begin{tabular}{|c|r|r|}
+        \hline
+        \textbf{N (Vértices)} & \textbf{Lista (ns)} & \textbf{Matriz (ns)} \\
+        \hline
+        8 & 68,833.60 & 2,428.82 \\
+        \hline
+        10 & 200,551.00 & 3,104.70 \\
+        \hline
+        12 & 655,799.00 & 3,146.28 \\
+        \hline
+        14 & 2,090,960.00 & 3,384.53 \\
+        \hline
+    \end{tabular}
+\end{frame}
+
+\begin{frame}{Desempenho da Heurística de Grundy (milissegundos)}
+    \centering
+    \begin{tabular}{|c|r|r|}
+        \hline
+        \textbf{N (Vértices)} & \textbf{Lista (ms)} & \textbf{Matriz (ms)} \\
+        \hline
+        500 & 5.34 & 47.92 \\
+        \hline
+        1000 & 21.51 & 192.57 \\
+        \hline
+        2000 & 90.64 & 566.79 \\
+        \hline
+    \end{tabular}
+\end{frame}
+
+\begin{frame}{Desempenho do Algoritmo de Força Bruta por Representação}
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/forca_bruta_comparativo.png}
+\end{frame}
+
+\begin{frame}{Desempenho do Algoritmo de Grundy por Representação}
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/grundy_comparativo.png}
+\end{frame}

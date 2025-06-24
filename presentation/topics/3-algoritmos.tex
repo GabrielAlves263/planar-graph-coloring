@@ -1,1 +1,103 @@
 \section{Força Bruta x Heurística de Grundy}
+
+\begin{frame}{Algoritmo de Força Bruta}
+
+\begin{block}{Funcionamento}
+    Tenta todas as colorações possíveis de um grafo:
+
+    \begin{itemize}
+    \item Varia o número de cores $k$ de 1 até $n$ (número de vértices).
+    \item Para cada $k$, testa todas as combinações possíveis de $k$ cores para os $n$ vértices.
+    \item Finaliza quando encontra uma coloração válida.
+\end{itemize}
+\end{block}
+
+\textbf{Complexidade: } 
+Exponencial, para um grafo com n vértices e k cores, existem $k^n$ colorações possíveis.
+\end{frame}
+
+\begin{frame}[fragile]{Algoritmo de Força Bruta}
+
+\textbf{Pseudocódigo Algorítimo de força bruta:}
+
+\begin{lstlisting}[style=portugolStyle, caption={Implementação em pseudocódigo do algoritmo de força bruta}]
+Algoritmo ColorirForcaBruta(G)
+n <-  de vertices de G
+para k de 1 ate n faca
+    para cada coloracao com k cores faca
+        se a coloracao for valida entao
+            retorne k, coloracao
+        fim se
+    fim para
+fim para
+retorne n, coloracao trivial
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}{Heurística de Grundy}
+\begin{block}{Funcionamento}
+    Estratégia gulosa que percorre os vértices e atribui a menor cor disponível.
+
+    \begin{itemize}
+    \item Visita os vértices em uma ordem definida.
+    \item Atribui a menor cor não usada pelos vizinhos.
+    \item Finaliza quando todos os vertices foram coloridos.
+    \end{itemize}
+
+\end{block}
+
+
+
+\textbf{Observações:}
+\begin{itemize}
+    \item Não é ótimo.
+    \item O \textit{número de Grundy} depende da ordem dos vértices.
+\end{itemize}
+
+\textbf{Complexidade:}
+\begin{itemize}
+    \item Linear: Aproximadamente $\mathcal{O}(n + m)$ para grafos com $n$ vértices e $m$ arestas.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Heurística de Grundy}
+
+\textbf{Pseudocódigo do Algoritmo de Grundy:}
+
+\begin{lstlisting}[style=portugolStyle, caption={Implementação em pseudocódigo da heurística de Grundy}]
+Algoritmo ColorirGrundy(G)
+n <- numero de vertices de G
+cores <- vetor de tamanho n, inicializado com -1
+
+para cada vertice v em G (em ordem fixa) faca
+    vizCores <- conjunto de cores dos vizinhos de v
+    cor <- menor inteiro nao presente em vizCores
+    cores[v] <- cor
+fim para
+
+retorne maior valor em cores + 1, vetor cores
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}{Comparativo: Força Bruta vs. Grundy}
+\textbf{Tabela Comparativa:}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Critério} & \textbf{Força Bruta} & \textbf{Grundy} \\
+\midrule
+Precisão & Garante mínimo & Não garante \\
+Desempenho & Muito lento & Muito rápido \\
+Complexidade & Exponencial & Linear ($\mathcal{O}(n + m)$) \\
+Aplicabilidade Prática & Pouco viável & Altamente viável \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.5em}
+A escolha do algoritmo é um fator essensial para equilibrar precisão e desempenho.
+\end{frame}

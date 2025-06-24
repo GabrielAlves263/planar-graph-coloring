@@ -1,5 +1,30 @@
 \section{Resultados de Desempenho}
 
+\begin{frame}{Estratégia de Execução Paralela com OpenMP}
+    Para otimizar o tempo total da coleta de dados, utilizamos a biblioteca \texttt{OpenMP} do C++ para executar os benchmarks em paralelo.
+
+    \vspace{0.5cm}
+
+    \begin{itemize}
+        \item A carga de trabalho foi dividida em 3 tarefas independentes, uma para cada tamanho de grafo a ser testado.
+
+        \item As três tarefas, correspondentes a:
+            \begin{itemize}
+                \item \textbf{n = 500}
+                \item \textbf{n = 1000}
+                \item \textbf{n = 2000}
+            \end{itemize}
+        
+        \item foram executadas simultaneamente na mesma máquina, aproveitando os múltiplos núcleos do processador para reduzir o tempo total de espera.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Processador utilizado para Execução Paralela}
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/processor.png}
+\end{frame}
+
+
 \begin{frame}{Desempenho do Algoritmo de Força Bruta (nanossegundos)}
     \centering
     { % Inicia um grupo para a mudança ser local

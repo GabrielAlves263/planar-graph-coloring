@@ -1,1 +1,163 @@
 \section{Representações de Grafos}
+
+\begin{frame}{Lista de Adjacência}
+    Um grafo $G=(V,E)$ é representado por um arranjo de listas. Para cada vértice $u \in V$, há uma lista que contém todos os seus vizinhos.
+    
+    $$ \text{Adj}(u) = \{ v \in V \mid (u, v) \in E \} $$
+    
+    \pause % <-- O slide para aqui até você avançar
+    
+    \textbf{Pontos Fortes}
+    \begin{itemize}
+        \item<+-> Eficiência de Espaço: Ideal para grafos com poucas arestas (esparsos). O espaço usado é proporcional ao número de vértices e arestas: $O(|V|+|E|)$.
+        \item<+-> Busca de Vizinhos Rápida: Listar todos os vizinhos de um vértice é muito eficiente.
+    \end{itemize}
+
+    \pause % <-- O slide para aqui até você avançar
+    
+    \textbf{Pontos Fracos}
+    \begin{itemize}
+        \item<+-> Verificação de Aresta Lenta: Checar se a aresta (u,v) existe pode exigir a varredura de toda a lista de vizinhos de u.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Matriz de Adjacência}
+    Um grafo com $n$ vértices é representado por uma matriz quadrada $M$ de dimensão $n \times n$.
+    
+    $$
+    M_{uv} =
+    \begin{cases}
+        1 & \text{se existe a aresta } (u, v), \\
+        0 & \text{caso contrário.}
+    \end{cases}
+    $$
+    
+    \pause % Primeira pausa
+    
+    \textbf{Pontos Fortes}
+    \begin{itemize}
+        \item<+-> Verificação de Aresta Instantânea: Saber se a aresta (u,v) existe é uma operação de tempo constante: $O(1)$.
+        \item<+-> Adição/Remoção Rápida de Arestas: Alterar o valor na matriz de 0 para 1 (ou vice-versa) é muito rápido.
+    \end{itemize}    
+
+    \pause % <-- O slide para aqui até você avançar
+    
+    \textbf{Pontos Fracos}
+    \begin{itemize}
+        \item<+-> Alto Custo de Memória: O espaço é sempre $O(|V|^2)$, mesmo para grafos com poucas arestas, o que gera desperdício.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Exemplo: Sugestão de Amigos em Rede Social}
+    \textbf{O Problema:} Para um usuário, encontrar seus "amigos de amigos" para sugerir novas conexões.
+    
+    \pause % Pausa 1
+    
+    \begin{itemize}
+        \item \textbf{Modelo:} Um grafo com 1 milhão de vértices (usuários).
+        \item \textbf{Característica:} Grafo \textit{esparso}, onde cada usuário tem em média 200 amigos (arestas).
+    \end{itemize}
+    
+    \pause % Pausa 2
+    
+    \textbf{Abordagem 1: Usando Lista de Adjacências}
+    \begin{itemize}
+        \item<+-> \textbf{Passo 1:} Acessar a lista do usuário inicial. Custo: ler 200 nomes.
+        \item<+-> \textbf{Passo 2:} Para cada um desses 200 amigos, acessar suas respectivas listas (com ~200 nomes cada).
+    \end{itemize}
+    
+    \pause % Pausa 3
+    
+    \begin{block}{Custo Computacional}
+        O número de operações é proporcional às conexões reais:
+        $$ \approx 200 \times 200 = \textbf{40.000 operações (rápido e eficiente)} $$
+    \end{block}
+
+\end{frame}
+
+\begin{frame}{Análise Comparativa e Conclusão}
+    
+    \textbf{Abordagem 2: Usando Matriz de Adjacências}
+    
+    \begin{itemize}
+        \item<+-> \textbf{Custo de Memória:} Exigiria uma matriz de $10^6 \times 10^6$, ou seja, $10^{12}$ células. \textbf{Totalmente inviável!}
+        \item<+-> \textbf{Custo de Computação:} Para achar os amigos de alguém, é preciso varrer 1 milhão de colunas.
+            $$ \approx 200 \times 1.000.000 = \textbf{200 milhões de operações} $$
+    \end{itemize}
+
+    \pause % Pausa 1
+    
+    \begin{block}{Tabela Comparativa}
+    \centering
+    \begin{tabular}{r c c}
+        \hline
+        \textbf{Critério} & \textbf{Lista de Adjacências} & \textbf{Matriz de Adjacências} \\
+        \hline
+        Memória & Mínima ($O(|V|+|E|)$) & Gigantesca ($O(|V|^2)$) \\
+        Velocidade & Quase Instantâneo & Extremamente Lento \\
+        \hline
+    \end{tabular}
+    \end{block}
+    
+    \pause % Pausa 2
+
+    \textbf{Conclusão:} Para grafos esparsos do mundo real, a \textbf{Lista de Adjacências} é a única escolha computacionalmente viável e eficiente.
+
+\end{frame}
+
+\begin{frame}{Exemplo de IA: Análise de Relações em Textos}
+    \textbf{O Problema:} Um modelo de IA (como os que equipam a busca do Google ou o ChatGPT) precisa aprender a relação semântica entre as palavras mais importantes de um idioma.
+
+    \pause % Pausa 1
+    
+    \begin{itemize}
+        \item \textbf{Modelo:} Um grafo com os \textbf{5.000 termos} mais comuns de um vocabulário.
+        \item \textbf{Característica:} Grafo \textit{denso}. Palavras como "governo" ou "economia" se conectam com milhares de outras.
+        \item \textbf{Operação Crítica:} Durante o treinamento, o modelo precisa verificar milhões de vezes e de forma \textbf{instantânea} se dois termos, como ('ciência', 'dados'), possuem uma conexão direta.
+    \end{itemize}
+    
+    \pause % Pausa 2
+    
+    \textbf{Abordagem 1: Usando Matriz de Adjacências}
+    \begin{itemize}
+        \item<+-> \textbf{Estrutura:} Uma matriz $5000 \times 5000$. O espaço de memória é alto, mas fixo e perfeitamente gerenciável para este porte.
+        \item<+-> \textbf{Verificação de Aresta:} Para checar a conexão ('ciência', 'dados'), o acesso é direto à célula \texttt{M[id\_ciencia][id\_dados]}.
+    \end{itemize}
+\end{frame}        
+
+\begin{frame}{Exemplo de IA: Análise de Relações em Textos}
+    \begin{block}{Custo Computacional}
+        A verificação da existência de uma aresta é em tempo constante:
+        $$ O(1) $$        
+    \end{block}
+\end{frame}
+
+\begin{frame}{Análise Comparativa e Conclusão (Grafos Densos)}
+    \textbf{Abordagem 2: Usando Lista de Adjacências (Neste Cenário)}
+    \begin{itemize}
+        \item \textbf{Verificação de Aresta:} Para checar a conexão ('ciência', 'dados'), o algoritmo precisaria:
+        \begin{enumerate}
+            \item Ir para a lista de vizinhos da palavra 'ciência'.
+            \item Percorrer \textbf{toda a lista} (que pode ter milhares de palavras) para procurar por 'dados'.
+        \end{enumerate}
+        \item<+-> \textbf{Custo:} $O(\text{grau}(\text{ciência}))$. Em um grafo denso, isso significa \textbf{milhares de operações para uma única verificação}, o que tornaria o treinamento da IA extremamente lento.
+    \end{itemize}
+    
+    \pause % Pausa 1
+    
+    \begin{block}{Tabela Comparativa (Para este Cenário de IA)}
+        \centering
+        \begin{tabular}{r c c}
+            \hline
+            \textbf{Critério} & \textbf{Matriz de Adjacências} & \textbf{Lista de Adjacências} \\
+            \hline
+            Verif. de Aresta & \textbf{Instantâneo ($O(1)$)} & Lento ($O(grau)$) \\
+            Uso em IA & \textbf{Ideal para treino} & Ineficiente para treino \\
+            \hline
+        \end{tabular}
+    \end{block}
+    
+    \pause % Pausa 2
+    
+    \textbf{Conclusão:} Para grafos \textbf{densos} e checagens de arestas em \textbf{$O(1)$}, a \textbf{Matriz de Adjacências} é a mais eficiente.
+\end{frame}
